@@ -33,6 +33,7 @@ function newElement() {
     alert("You must write something!");
   } else {
     document.getElementById("myUL").appendChild(li);
+    li.dataset.creationTime = new Date().toISOString(); // Add creation time attribute
   }
   document.getElementById("myInput").value = "";
 
@@ -47,5 +48,28 @@ function newElement() {
       var div = this.parentElement;
       div.style.display = "none";
     }
+  }
+}
+
+function masrapida() {
+  var listItems = document.getElementsByTagName("li");
+  var minTime = Infinity;
+  var tarearapida = "";
+  for (var i = 0; i < listItems.length; i++) {
+    var item = listItems[i];
+    if (!item.classList.contains("checked")) {
+      var comienzo = new Date(item.dataset.creationTime).getTime();
+      var ahora = new Date().getTime();
+      var timer = ahora - comienzo;
+      if (timer < minTime) {
+        minTime = timer;
+        tarearapida = item.textContent;
+      }
+    }
+  }
+  if (tarearapida !== "") {
+    alert("La tarea mas rapida completada fue: " + tarearapida.trim());
+  } else {
+    alert("No hay tareas completadas.");
   }
 }
